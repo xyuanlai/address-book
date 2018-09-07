@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Address Book</title>
+  <link rel="manifest" href="./manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Address Book">
+  <link rel="apple-touch-icon" href="images/icons/icon-152x152.png">
+  <meta name="msapplication-TileImage" content="images/icons/icon-144x144.png">
+  <meta name="msapplication-TileColor" content="#2F3BA2">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="styles/inline.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+  <script src="scripts/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="sticky-top" id="homeNav">
+          <nav-search ref="searchInput"></nav-search>
+        </div>
+        <div class="home-history-preview m-3" v-if="homeContent === 'historyPreview'" @click="clickHomeHistoryPreview">
+          <card-history-preview v-for="contact in historyContacts" :contact="contact" :key="contact.id"></card-history-preview>
+        </div>
+        <div class="home-history m-3" v-if="homeContent === 'history'">
+          <card-history v-for="contact in historyContacts" :contact="contact" :key="contact.id" @click-home="clickHomeContact(contact)"></card-history>
+        </div>
+        <div class="home-search m-3" v-if="homeContent === 'search'">
+          <h5>Possible Results</h5>
+          <card-contact v-for="contact in results" :contact="contact" :key="contact.id" @click-contact="clickHomeContact(contact)"></card-contact>
+        </div>
+        <div class="home-detail m-3" v-if="homeContent === 'detail'">
+          <card-detail :contact="contact" :groups="groups"></card-detail>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="saved" role="tabpanel" aria-labelledby="saved-tab">
+        <nav class="navbar navbar-light border-bottom">
+          <span class="navbar-brand mb-0">已儲存</span>
+        </nav>
+        <div class="m-3" v-if="savedContent === 'saved'">
+          <card-contact v-for="contact in getContactsBySaved()" :contact="contact" :key="contact.id" @click-contact="clickSaveContact(contact)"></card-contact>
+        </div>
+        <div class="m-3" v-if="savedContent === 'detail'">
+          <card-detail :contact="contact" :groups="groups"></card-detail>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="group" role="tabpanel" aria-labelledby="group-tab">
+        <nav class="navbar navbar-light border-bottom">
+          <span class="navbar-brand mb-0">我的群組</span>
+          <a href="#" v-if="groupContent === 'group'" @click="editMode = !editMode">編輯</a>
+        </nav>
+        <div class="m-3" v-if="groupContent === 'group'" v-for="group in groups" :key="group.id">
+          <div class="d-flex">
+            <h5>{{ group.name}}</h5>
+            <a href="#" class="text-danger ml-4" v-if="editMode" @click="deleteGroup(group.id)"><i class="fas fa-minus-circle"></i></a>
+            <a href="#" class="text-secondary ml-4" v-if="editMode" @click="editGroup(group.id)"><i class="far fa-edit"></i></a>            
+          </div>
+          <card-contact v-for="contact in getContactsByGroup(group.id)" :contact="contact" :key="contact.id" @click-contact="clickGroupContact(contact)"></card-contact>
+        </div>
+        <div class="m-3" v-if="groupContent === 'detail'">
+          <card-detail :contact="contact" :groups="groups"></card-detail>
+        </div>
+      </div>
+    </div>
+    <nav class="navbar navbar-expand navbar-dark bg-dark fixed-bottom">
+      <div class="nav navbar-nav mr-auto" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true" @click="resetContent"><i class="fas fa-home fa-lg"></i></a>
+        <a class="nav-item nav-link" id="saved-tab" data-toggle="tab" href="#saved" role="tab" aria-controls="saved" aria-selected="false" @click="resetContent"><i class="fas fa-star fa-lg"></i></a>
+        <a class="nav-item nav-link" id="contact-tab" data-toggle="tab" href="#group" role="tab" aria-controls="group" aria-selected="false" @click="resetContent"><i class="fas fa-users fa-lg"></i></a>
+      </div>
+    </nav>
+  </div>
+  <script src="scripts/app.js" async></script>
+</body>
+</html>
