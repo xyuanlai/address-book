@@ -82,11 +82,11 @@ var cardHistory = Vue.component('card-history', {
         </div>
         <div class="d-flex flex-column" v-if="contact.latest === 'ext'">
           <div class="d-flex ml-auto card-title">分機</div>
-          <p class="card-text"><a :href="'tel:+' + contact.ext">{{ contact.ext }}</a></p>
+          <p class="card-text"><a :href="'tel:' + contact.ext">{{ contact.ext }}</a></p>
         </div>
         <div class="d-flex flex-column" v-else-if="contact.latest === 'phone'">
           <div class="d-flex ml-auto card-title">行動電話</div>
-          <p class="card-text"><a :href="'tel:+' + contact.phone">{{ contact.phone }}</a></p>
+          <p class="card-text"><a :href="'tel:' + contact.phone">{{ contact.phone }}</a></p>
         </div>
         <div class="d-flex flex-column" v-else-if="contact.latest == 'mail'">
           <div class="d-flex ml-auto card-title">電子郵件<br/></div>
@@ -133,7 +133,7 @@ var cardSearch = Vue.component('card-search', {
           <p class="card-text">{{ contact.dept }} {{ contact.alias }}</p>
         </div>
         <div class="d-flex flex-column">
-          <a :href="'tel:+' + contact.phone"><i class="fas fa-phone"></i> {{ contact.phone }}</a>
+          <a :href="'tel:' + contact.phone"><i class="fas fa-phone"></i> {{ contact.phone }}</a>
           <!-- <a class="btn" :href="'mailto:' + contact.mail"><i class="fas fa-envelope"></i>{{ contact.mail }}</a> -->
         </div>
       </div>
@@ -164,8 +164,8 @@ var cardDetail = Vue.component('card-detail', {
         <p class="card-text">{{ contact.dept }} {{ contact.alias }}</p>
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">分機<br/><a :href="'tel:+' + contact.ext">{{ contact.ext }}</a></li>
-        <li class="list-group-item">行動電話<br/><a :href="'tel:+' + contact.phone">{{ contact.phone }}</a></li>
+        <li class="list-group-item">分機<br/><a :href="'tel:' + contact.ext">{{ contact.ext }}</a></li>
+        <li class="list-group-item">行動電話<br/><a :href="'tel:' + contact.phone">{{ contact.phone }}</a></li>
         <li class="list-group-item">電子郵件<br/><a :href="'mailto:' + contact.mail">{{ contact.mail }}</a></li>
       </ul>
       <div class="card-body d-flex justify-content-end">
