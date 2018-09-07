@@ -9,7 +9,8 @@ var navSearch = Vue.component('nav-search', {
   template: `
     <nav class="navbar navbar-dark bg-light justify-content-center border-bottom shadow-sm">
       <a class="navbar-brand" href="#">
-        <img src="./images/logo.png" width="133" height="20" alt="">
+        <h4 class="text-dark mb-0">Address Book</h4>
+        <!-- <img src="./images/logo.png" width="133" height="20" alt=""> -->
       </a>
       <form>
         <div class="input-group my-2">
@@ -292,17 +293,19 @@ var app = new Vue({
     editMode: false,
     contact: {},
     contacts: [
-      { id: 1, uid: 1170187, name: '賴思元', alias: 'SYLAI', dept: 'D100', ext: '34313', phone: '886-988-069720', mail: 'SYLAI@nuvoton.com', saved: true, group: 1, latest: 'ext', updateTime: '2018-09-05T09:10:58.440Z' },
-      { id: 2, uid: 1178787, name: '張一三', alias: 'YSCHANG31', dept: 'A000', ext: '31313', phone: '886-988-223451', mail: 'YSCHANG31@nuvoton.com', saved: true, group: 2, latest: 'phone', updateTime: '2018-09-04T09:10:58.440Z' },
-      { id: 3, uid: 1172424, name: '李二四', alias: 'OSLI24', dept: 'B000', ext: '32424', phone: '886-988-337684', mail: 'OSLI24@nuvoton.com', saved: true, group: null, latest: 'mail', updateTime: '2018-09-02T09:10:58.440Z' },
-      { id: 4, uid: 0000000, name: 'NUVOTON', alias: 'NUVOTON', dept: '', ext: '33333', phone: '886-3-5770066', mail: 'NUVOTON@nuvoton.com', saved: false, group: null, latest: 'phone', updateTime: '2018-09-03T09:10:58.440Z' },
-      { id: 5, uid: 0000001, name: 'NUVOTON', alias: 'NUVOTON', dept: '', ext: '33333', phone: '886-3-5770066', mail: 'NUVOTON@nuvoton.com', saved: false, group: null, latest: 'phone', updateTime: '2018-09-01T09:10:58.440Z' },
-      { id: 6, uid: 0000002, name: 'NUVOTON', alias: 'NUVOTON', dept: '', ext: '33333', phone: '886-3-5770066', mail: 'NUVOTON@nuvoton.com', saved: false, group: null, latest: 'phone', updateTime: '2018-09-01T09:10:58.440Z' }
+      { id: 1, uid: 1170187, name: '賴思元', alias: 'SYLAI', dept: 'D100', ext: '34313', phone: '0987-087870', mail: 'sylai@gmail.com', saved: true, group: 1, latest: 'ext', updateTime: '2018-09-05T09:10:58.440Z' },
+      { id: 2, uid: 1178787, name: '張一三', alias: 'YSCHANG31', dept: 'A000', ext: '31313', phone: '0987-223451', mail: 'yschang31@yahoo.com', saved: true, group: 2, latest: 'phone', updateTime: '2018-09-04T09:10:58.440Z' },
+      { id: 3, uid: 1172424, name: 'Rachel', alias: 'RGreen', dept: 'B000', ext: '32424', phone: '0987-337684', mail: 'rgreen@facebook.com', saved: true, group: null, latest: 'mail', updateTime: '2018-09-02T09:10:58.440Z' },
+      { id: 4, uid: 1171238, name: 'Joey', alias: 'JTribbiani', dept: 'C000', ext: '37733', phone: '0987-351354', mail: 'jtribbiani@amazon.com', saved: false, group: null, latest: 'phone', updateTime: '2018-09-03T09:10:58.440Z' },
+      { id: 5, uid: 1178234, name: 'Chandler', alias: 'CBing', dept: 'D000', ext: '37841', phone: '0987-456321', mail: 'cbing@apple.com', saved: false, group: null, latest: 'mail', updateTime: '2018-09-01T09:10:58.440Z' },
+      { id: 6, uid: 1171234, name: 'Phoebe', alias: 'PBuffay', dept: 'E000', ext: '36453', phone: '0987-124354', mail: 'pbuffay@twitter.com', saved: false, group: null, latest: 'phone', updateTime: '2018-08-01T09:10:58.440Z' },
+      { id: 7, uid: 1171341, name: 'Monica', alias: 'MGeller', dept: 'F000', ext: '34512', phone: '0987-324431', mail: 'mgeller@linkedin.com', saved: false, group: null, latest: 'ext', updateTime: '2018-08-02T09:10:58.440Z' },
+      { id: 8, uid: 1179845, name: 'Ross', alias: 'RGeller', dept: 'G000', ext: '38745', phone: '0987-734523', mail: 'pgeller@netflix.com', saved: false, group: null, latest: 'ext', updateTime: '2018-08-03T09:10:58.440Z' }
     ],
     results: [],
     groups: [
-      { id: 1, name: 'D100'},
-      { id: 2, name: 'D300'}
+      { id: 1, name: '我的群組一'},
+      { id: 2, name: '我的群組二'}
     ]
   },
   computed: {
@@ -387,3 +390,13 @@ var app = new Vue({
     }
   }
 })
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./service-worker.js')
+  .then(function(registration) {
+    console.log('Service Worker Registered. Scope is: ' + registration.scope);
+  })
+  .catch(function(err) {
+    console.log('Service Worker registration failed: ', err);
+  });
+}
