@@ -25,7 +25,7 @@
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
         <div class="sticky-top" id="homeNav">
-          <nav-search ref="searchInput"></nav-search>
+          <nav-search :content="homeContent" ref="searchInput"></nav-search>
         </div>
         <div class="home-history-preview m-3" v-if="homeContent === 'historyPreview'" @click="clickHomeHistoryPreview">
           <card-history-preview v-for="contact in historyContacts" :contact="contact" :key="contact.id"></card-history-preview>

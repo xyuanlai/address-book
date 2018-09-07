@@ -1,4 +1,5 @@
 var navSearch = Vue.component('nav-search', {
+  props: ['content'],
   data: function () {
     return {
       search: '',
@@ -12,14 +13,11 @@ var navSearch = Vue.component('nav-search', {
         <h4 class="text-dark mb-0">Address Book</h4>
         <!-- <img src="./images/logo.png" width="133" height="20" alt=""> -->
       </a>
-      <form>
-        <div class="input-group my-2">
+      <form class="search-form">
+        <div class="form-group my-2">
           <input type="text" class="form-control" placeholder="請輸入搜尋內容" aria-label="請輸入搜尋內容" aria-describedby="button-addon" v-model="search" @focus="doSearch">
-          <div class="input-group-append">
-            <button class="btn btn-secondary" type="button" id="button-addon" @click="searchResults(search, condition, includeWinbond)"><i class="fas fa-search"></i></button>
-          </div>
         </div>
-        <div class="form-group mb-0">
+        <div class="form-group mb-0" v-show="content != 'detail'">
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="searchRadioOptions" id="searchRadio1" value="name" v-model="condition" @click="searchResults(search, 'name', includeWinbond)">
             <label class="form-check-label" for="searchRadio1">姓名</label>
